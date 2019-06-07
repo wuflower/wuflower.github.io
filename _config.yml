@@ -78,6 +78,6 @@ theme: matery
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:git
-  repo:git@github.com:wuflower/wuflower.github.io.git
-  branch:master
+  type: git
+  repo: git@github.com:wuflower/wuflower.github.io.git
+  branch: master
