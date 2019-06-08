@@ -431,10 +431,10 @@
 <p><code>$ npm install -g hexo-cli</code></p>
 <p>就能愉快的安装HEXO了。然而结果并不是。。。。。。</p>
 <p><font color="red"><em>这里就出现了第一个问题</em></font></p>
-<p><em>在我输入之后cmd窗口显示加载了一下东西，然后就卡在了如下的地方</em></p>
+<p><font color="red"><em>在我输入之后cmd窗口显示加载了一下东西，然后就卡在了如下的地方</em></font></p>
 <p><code>fetchMetadata: sill resolveWithNewModule hexo-cli@2.0.0 checking installable</code></p>
-<p><em>我也不敢动，但我敢问啊- -！百度了一下，一开始说是正在安装，别急，让它运行着一会儿就安装成功了，然后我就瓜子汽水看着视频等了一个多小时，整个人有点炸了。无奈只好再求助百度，终于让我在茫茫多的信息中发现一条，说是npm原始镜像库连接不稳定，安装软件很慢，需要更换阿里的镜像库。</em></p>
-<p><em>在cmd窗口中输入如下两条指令就把npm的镜像库和disturl都更改为阿里云的，然后我两分钟不到就安装完HEXO了！！！！！</em></p>
+<p><font color="red"><em>我也不敢动，但我敢问啊- -！百度了一下，一开始说是正在安装，别急，让它运行着一会儿就安装成功了，然后我就瓜子汽水看着视频等了一个多小时，整个人有点炸了。无奈只好再求助百度，终于让我在茫茫多的信息中发现一条，说是npm原始镜像库连接不稳定，安装软件很慢，需要更换阿里的镜像库。</em></font></p>
+<p><font color="red"><em>在cmd窗口中输入如下两条指令就把npm的镜像库和disturl都更改为阿里云的，然后我两分钟不到就安装完HEXO了！！！！！</em></font></p>
 <p><code>npm config set registry https://registry.npm.taobao.org --global</code></p>
 <p><code>npm config set disturl https://npm.taobao.org/dist --global</code></p>
 <p>2、接下来就可以使用HEXO了。</p>
@@ -469,7 +469,17 @@
     repo: git@github.com:YourgithubName/YourgithubName.github.io.git
     branch: master</code></pre><p>这个时候需要先安装deploy-git ，也就是部署的命令,这样你才能用命令部署到GitHub。</p>
 <p><code>npm install hexo-deployer-git --save</code></p>
-<p>然后</p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/npm-installhexo-success.jpg" alt="deploy-git安装成功"></p>
+<p>出现上图就说明你安装成功了，在你的博客目录下（我这里也就是mocuishle这个目录）会出现一个.deploy-git的文件夹，这是一个隐藏文件夹，需要你能查看隐藏文件和目录才能看到</p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/Snipaste_2019-06-08_11-37-10.jpg" alt="出现.deploy-git的文件夹"></p>
+<p><font color="red"><em>将hexo部署到GitHub特别容易出现问题，在这里我就列出两个我出现的问题。</em></font></p>
+<p><font color="red">第一个问题是在安装deploy-git时命令行出现如下错误</font></p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/npm-install-hexo-problem.jpg" alt></p>
+<p><font color="red">这个其实比较好解决，输入指令<code>npm cache clean --force</code>就可以了。这个指令从字面就很好理解，是用来强制清除之前的缓存，之后就能安装成功了</font></p>
+<p><font color="red">第二个问题就隐藏的比较深了，在我们前面为了将hexo和GitHub关联起来修改根目录下的配置文件时，新手很可能没有注意到图中红框的地方都是有一个空格的</font></p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/Snipaste_2019-06-08_12-06-18.jpg" alt="注意空格"></p>
+<p><font color="red">如果不加空格的话，你运行部署命令<code>hexo deploy</code>时命令行就会毫无反应，然后你们就可能跟我一样一脸懵逼好一阵</font></p>
+<p>接下来的三个命令都是部署相关的</p>
 <p><code>hexo clean</code></p>
 <p><code>hexo generate</code></p>
 <p><code>hexo deploy</code></p>
@@ -478,7 +488,34 @@
 <p>hexo deploy 部署文章，可以用hexo d缩写</p>
 <p>注意deploy时可能要你输入password。</p>
 <p>得到下图就说明部署成功了，过一会儿就可以在<a href="http://yourname.github.io" target="_blank" rel="noopener">http://yourname.github.io</a> 这个网站看到你的博客了！！<br><img src="http://wx2.sinaimg.cn/mw690/86deecfbly1g3t46hzgrpj20od05p0tn.jpg" alt></p>
-<h3 id="绑定个人域名"><a href="#绑定个人域名" class="headerlink" title="绑定个人域名"></a>绑定个人域名</h3>
+<h3 id="绑定个人域名"><a href="#绑定个人域名" class="headerlink" title="绑定个人域名"></a>绑定个人域名</h3><p>做完上面的步骤其实就可以在浏览器输入<a href="http://yourname.github.io" target="_blank" rel="noopener">http://yourname.github.io</a> 看到你的博客了，如果你不需要自己的独特域名的话，个人博客就算是搭建好了。但作为一个有理想有抱负的程序员，怎么能没有自己域名呢？其实现在域名也很便宜了，我是在阿里云上购买的mocuishle.top这个域名，域名3年也就30几块。</p>
+<h4 id="添加CNAME文件"><a href="#添加CNAME文件" class="headerlink" title="添加CNAME文件"></a>添加CNAME文件</h4><p>在我们的博客根目录下的<code>source</code>文件夹新建一个<code>CNAME</code>文件，没有后缀。用notepad++打开<code>CNAME</code>文件，在其中添加自己的域名信息，如下图</p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/Snipaste_2019-06-08_13-01-25.jpg" alt></p>
+<p>保存之后再重新部署一下</p>
+<h4 id="在github项目中添加域名"><a href="#在github项目中添加域名" class="headerlink" title="在github项目中添加域名"></a>在github项目中添加域名</h4><p>在项目的<code>Settings</code>中，添加<code>Custom domain</code>到自己的域名：</p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/Snipaste_2019-06-08_13-05-04.jpg" alt></p>
+<h4 id="给域名添加解析记录"><a href="#给域名添加解析记录" class="headerlink" title="给域名添加解析记录"></a>给域名添加解析记录</h4><p>在阿里云购买完域名之后，在域名控制台可以免费帮你解析域名：</p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/Snipaste_2019-06-08_13-29-05.jpg" alt></p>
+<p>你需要先ping自己的yourname.github.io这个网站获得IP地址：</p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/Snipaste_2019-06-08_13-13-16.jpg" alt></p>
+<p>然后在解析列表中添加两条记录</p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/Snipaste_2019-06-08_13-13-37.jpg" alt></p>
+<p>之后等待一段时间及大功告成了！！</p>
+<p><img src="https://mocuishle-blog-picture.oss-cn-beijing.aliyuncs.com/my-first-blog/Snipaste_2019-06-08_13-33-22.jpg" alt></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说整个搭建过程其实还是比较简单的，其中一些坑都是一些很基础、很简单的问题，但对于新手来说很不容易发现根本原因，百度也不知道具体该搜索啥，所以耗时比较久。最后看下来，一切顺利的话其实整个流程也就花费一个小时左右，希望这篇文章能够对希望搭建个人博客的人有一点帮助，让大家少走一些弯路。</p>
+<p>在整个搭建过程中还接触到了一些之前没有一点了解的内容，我把这些内容罗列在下面，在自己学习了解之后，也会写一写相关的内容：</p>
+<ul>
+<li><p><strong>Node.js和npm</strong>  </p>
+<p>这里涉及在windows命令行中用npm命令安装，我在此过程中只是按部就班的照着文档指令做，对于Node.js和npm一无所知，并且在我百度Node.js和npm的时候感觉是一个挺牛的东西</p>
+</li>
+<li><p><strong>Hexo配置和主题配置</strong></p>
+<p>Hexo配置文件:mucuishle_config.yml和主题配置文件:mucuishle\themes\matery_config.yml中其实还有很多值得研究的地方，可以更加个性化的定制自己的博客</p>
+</li>
+<li><p><strong>Markdown格式文件的编写和Markdown编辑器的使用</strong></p>
+<p>因为HEXO中博客的编写适用Markdown格式，所以在写这篇文章的时候又现学了用Markdown写文章和初步使用Atom这款Markdown编辑器</p>
+</li>
+</ul>
+
             </div>
             <hr>
 
