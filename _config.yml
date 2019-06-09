@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
-keywords:
+title: Mo Cuishle
+subtitle: 天道酬勤
+description: 博客既是对自己生活、学习、工作的一个记录，也作为自己学习积累知识的一个输出
+keywords: 程序员 自学
 author: Mo Cuishle
 language: zh-CN
 timezone:
@@ -39,7 +39,7 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: true
+  enable: false
   line_number: true
   auto_detect: false
   tab_replace:
@@ -67,7 +67,7 @@ time_format: HH:mm:ss
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-per_page: 10
+per_page: 12
 pagination_dir: page
 
 # Extensions
@@ -80,4 +80,33 @@ theme: matery
 deploy:
   type: git
   repo: git@github.com:wuflower/wuflower.github.io.git
-  branch: master
+  branch: master  
+
+#代码高亮
+
+prism_plugin:
+  mode: 'preprocess'    # realtime/preprocess
+  theme: 'tomorrow'
+  line_number: false    # default false
+  custom_css: 
+
+#搜索
+search:
+  path: search.xml
+  field: post
+  
+#中文链接转拼音  如果你的文章名称是中文的，那么 Hexo 默认生成的永久链接也会有中文，这样不利于 `SEO`，且 `gitment` 评论对中文链接也不支持。我们可以用 [hexo-permalink-pinyin](https://github.com/viko16/hexo-permalink-pinyin) Hexo 插件使在生成文章时生成中文拼音的永久链接。
+permalink_pinyin:
+  enable: true
+  separator: '-' # default: '-'
+
+#添加 RSS 订阅支持
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content:
+  content_limit: 140
+  content_limit_delim: ' '
+  order_by: -date
