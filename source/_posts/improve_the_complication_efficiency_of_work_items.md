@@ -48,7 +48,7 @@ ninja的网址：https://ninja-build.org
 
 - kati：用于处理Android.mk，编译生成*.ninja文件，用于做ninja的处理
 
-&emsp;&emsp;在编译过程中，Android.bp会被收集到out/soong/build.ninja.d,blueprint以此为基础，生成out/soong/build.ninja，Android.mk会由kati/ckati生成为out/build-aosp_arm.ninja；两个ninja文件会被整合进入out/combined-aosp_arm.ninja（在我们具体项目中aosp_arm会被替换成项目名称）。soong的编译过程如下图所示，在我们完整编译一次项目生成combined-aosp_arm.ninja这个文件后，我们就可以用ninja来进行更为高效的编译了。
+&emsp;&emsp;在编译过程中，Android.bp会被收集到`out/soong/build.ninja.d,blueprint`以此为基础，生成`out/soong/build.ninj`a，Android.mk会由kati/ckati生成为`out/build-aosp_arm.ninj`a；两个ninja文件会被整合`进入out/combined-aosp_arm.ninja`（在我们具体项目中aosp_arm会被替换成项目名称）。soong的编译过程如下图所示，在我们完整编译一次项目生成`combined-aosp_arm.ninja`这个文件后，我们就可以用ninja来进行更为高效的编译了。
 
 
 ![soong编译过程][pic3]
@@ -63,7 +63,7 @@ Make 构建系统得到了广泛的支持和使用，但在 Android 层面变得
 
 ### 为何mm编译越来越慢
 
-Android 6之前的纯粹的`mm`编译几分钟完成首次编译、几秒钟完成编译检查、一分钟内完成增量编译相比，ninja的加入使得我们使用mm进行单模块的编译时需要重新生成ninja文件，这就带来了以下几个问题
+Android 6之前的纯粹的`mm`编译几分钟完成首次编译、几秒钟完成编译检查、一分钟内完成增量编译，与之相比ninja的加入使得我们使用mm进行单模块的编译时需要重新生成ninja文件，这就带来了以下几个问题
 
 <font size=3>**1. 生成ninja文件太慢**</font>
 
