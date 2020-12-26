@@ -1,13 +1,13 @@
 ---
 layout: '[post]'
-title: 提升工作中项目的编译效率
+title: 使用Ninja提升工作项目编译效率
 date: 2020-12-26 1:44:07
 tags:
   - Adroid编译
 categories:
   - Android
 ---
-# 提升工作项目编译效率
+# 使用Ninja提升工作项目编译效率
 
 ## 引言
 &emsp;&emsp;目前主要做camera驱动相关工作，工作中项目的编译方式主要有make bootimage\dtboimage编译整个boot或者dtbo，在相关目录下`mm`。之前项目处于Android N\P版本时`mm`编译还比较快，大概3~5分钟左右能够完成；但在最近的Q和R版本中，由于关联的target和prerequisites，往往需要十几、二十分钟才能完成一次mm，大量的时间浪费在了代码编译上，极大的降低了工作效率，这让我非常不能忍受。
