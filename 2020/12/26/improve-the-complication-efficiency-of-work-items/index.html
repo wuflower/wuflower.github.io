@@ -4,7 +4,7 @@
 
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="提升工作中项目的编译效率, 程序员 自学">
+    <meta name="keywords" content="使用Ninja提升工作项目编译效率, 程序员 自学">
     <meta name="description" content="博客既是对自己生活、学习、工作的一个记录，也作为自己学习积累知识的一个输出">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>提升工作中项目的编译效率 | Mo Cuishle</title>
+    <title>使用Ninja提升工作项目编译效率 | Mo Cuishle</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">提升工作中项目的编译效率</h1>
+                    <h1 class="description center-align post-title">使用Ninja提升工作项目编译效率</h1>
                 </div>
             </div>
         </div>
@@ -474,7 +474,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="提升工作项目编译效率"><a href="#提升工作项目编译效率" class="headerlink" title="提升工作项目编译效率"></a>提升工作项目编译效率</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>&emsp;&emsp;目前主要做camera驱动相关工作，工作中项目的编译方式主要有make bootimage\dtboimage编译整个boot或者dtbo，在相关目录下<code>mm</code>。之前项目处于Android N\P版本时<code>mm</code>编译还比较快，大概3~5分钟左右能够完成；但在最近的Q和R版本中，由于关联的target和prerequisites，往往需要十几、二十分钟才能完成一次mm，大量的时间浪费在了代码编译上，极大的降低了工作效率，这让我非常不能忍受。</p>
+                <h1 id="使用Ninja提升工作项目编译效率"><a href="#使用Ninja提升工作项目编译效率" class="headerlink" title="使用Ninja提升工作项目编译效率"></a>使用Ninja提升工作项目编译效率</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>&emsp;&emsp;目前主要做camera驱动相关工作，工作中项目的编译方式主要有make bootimage\dtboimage编译整个boot或者dtbo，在相关目录下<code>mm</code>。之前项目处于Android N\P版本时<code>mm</code>编译还比较快，大概3~5分钟左右能够完成；但在最近的Q和R版本中，由于关联的target和prerequisites，往往需要十几、二十分钟才能完成一次mm，大量的时间浪费在了代码编译上，极大的降低了工作效率，这让我非常不能忍受。</p>
 <h2 id="Android编译系统简介"><a href="#Android编译系统简介" class="headerlink" title="Android编译系统简介"></a>Android编译系统简介</h2><p>&emsp;&emsp;在 Android 7.0 之前，Android 编译系统使用 GNU Make 描述和shell来构建编译规则，模块定义都使用Android.mk进行定义，Android.mk的本质就是Makefile，但是随着Android的工程越来越大，模块越来越多，Makefile组织的项目编译时间越来越长。这样下去Google工程师觉得不行，得要优化。</p>
 <p>&emsp;&emsp;因此，在Android7.0开始，Google采用ninja来代取代之前使用的make，由于之前的Android.mk数据实在巨大，因此Google加入了一个kati工具，用于将Android.mk转换成ninja的构建规则文件buildxxx.ninja,再使用ninja来进行构建工作。</p>
 <p>ninja的网址：<a href="https://ninja-build.org" target="_blank" rel="noopener">https://ninja-build.org</a></p>
@@ -859,9 +859,9 @@ ninja: build stopped: subcommand failed.</code></pre><p>在我们修改了这个
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="提升工作中项目的编译效率">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="使用Ninja提升工作项目编译效率">
                         
-                        <span class="card-title">提升工作中项目的编译效率</span>
+                        <span class="card-title">使用Ninja提升工作项目编译效率</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
