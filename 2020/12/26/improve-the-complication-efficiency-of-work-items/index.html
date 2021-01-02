@@ -29,7 +29,8 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -458,12 +459,22 @@
                 
 
                 
-
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2021-01-02
+                </div>
                 
 
                 
 
                 
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
             </div>
         </div>
         <hr class="clearfix">
@@ -522,98 +533,110 @@
 <p>两者最核心的区别，在于设计哲学。 Makefile是设计来给人手写的，而Ninja设计出来是给其它程序生成的。 如果说Makefile是C语言，那么Ninja就是汇编语言。二者的相同点是，都是为了控制编译流程而设计。 所以，他们的核心功能，都是指定目标，以及目标之间的依赖关系，自动计算执行顺序。与Makefile相比，由于Ninja仅仅专注于核心的功能，所以有轻巧、速度快的优点。</p>
 <p>Makefile默认文件名为Makefile或makefile，也常用.make或.mk作为文件后缀。 Ninja的默认文件名是build.ninja，其它文件也以.ninja为后缀。 执行Makefile的程序，默认是GNU make，也有一些其它的实现。 Ninja的执行程序，就是ninja命令。</p>
 <p>同其它命令一样，我们可以用<code>ninja -h</code>来查看ninja命令的帮助文档</p>
-<pre><code>  $ ninja -h
-  usage: ninja [options] [targets...]
+<pre class="line-numbers language-bash"><code class="language-bash">      $ ninja -h
+      usage: ninja <span class="token punctuation">[</span>options<span class="token punctuation">]</span> <span class="token punctuation">[</span>targets<span class="token punctuation">..</span>.<span class="token punctuation">]</span>
 
-  if targets are unspecified, builds the &#39;default&#39; target (see manual).
+      <span class="token keyword">if</span> targets are unspecified, builds the <span class="token string">'default'</span> target <span class="token punctuation">(</span>see manual<span class="token punctuation">)</span>.
 
-  options:
-  --version  print ninja version (&quot;1.7.2&quot;)
+      options:
+      --version  print ninja version <span class="token punctuation">(</span><span class="token string">"1.7.2"</span><span class="token punctuation">)</span>
 
-  -C DIR   change to DIR before doing anything else
-  -f FILE  specify input build file [default=build.ninja]
+      -C DIR   change to DIR before doing anything <span class="token keyword">else</span>
+      -f FILE  specify input build <span class="token function">file</span> <span class="token punctuation">[</span>default<span class="token operator">=</span>build.ninja<span class="token punctuation">]</span>
 
-  -j N     run N jobs in parallel [default=6, derived from CPUs available]
-  -k N     keep going until N jobs fail [default=1]
-  -l N     do not start new jobs if the load average is greater than N
-  -n       dry run (don&#39;t run commands but act like they succeeded)
-  -v       show all command lines while building
+      -j N     run N <span class="token function">jobs</span> <span class="token keyword">in</span> parallel <span class="token punctuation">[</span>default<span class="token operator">=</span>6, derived from CPUs available<span class="token punctuation">]</span>
+      -k N     keep going <span class="token keyword">until</span> N <span class="token function">jobs</span> fail <span class="token punctuation">[</span>default<span class="token operator">=</span>1<span class="token punctuation">]</span>
+      -l N     <span class="token keyword">do</span> not start new <span class="token function">jobs</span> <span class="token keyword">if</span> the load average is greater than N
+      -n       dry run <span class="token punctuation">(</span>don't run commands but act like they succeeded<span class="token punctuation">)</span>
+      -v       show all <span class="token function">command</span> lines <span class="token keyword">while</span> building
 
-  -d MODE  enable debugging (use -d list to list modes)
-  -t TOOL  run a subtool (use -t list to list subtools)
-  terminates toplevel options; further flags are passed to the tool
-  -w FLAG  adjust warnings (use -w list to list warnings)</code></pre><p>很多参数，和make是比较类似的，比如-f、-j等，从后面的注释我们就可以理解大概的用法。 有趣的是-t、-d、-w这三个参数，最有用的是-t。</p>
-<pre><code>  $ ninja -t list
-  ninja subtools:
-      browse  browse dependency graph in a web browser
-       clean  clean built files
-    commands  list all commands required to rebuild given targets
-        deps  show dependencies stored in the deps log
-       graph  output graphviz dot file for targets
-       query  show inputs/outputs for a path
-     targets  list targets by their rule or depth in the DAG
-      compdb  dump JSON compilation database to stdout
-   recompact  recompacts ninja-internal data structures</code></pre><p>ninja -t clean是清理产物，是自带的，而make clean往往需要自己实现。 其它都是查看编译过程信息的工具，各有作用，可以进行复杂的编译依赖分析。</p>
-<pre><code>  ninja subtools:
-  browse        # 在浏览器中浏览依赖关系图。（默认会在 8080 端口启动一个基于python的http服务）
-  clean         # 清除构建生成的文件
-  commands      # 罗列重新构建制定目标所需的所有命令
-  deps          # 显示存储在deps日志中的依赖关系
-  graph         # 为指定目标生成 graphviz dot 文件。
-                #  如 ninja -t graph all |dot -Tpng -ograph.png
-  query         # 显示一个路径的inputs/outputs
-  targets       # 通过DAG中rule或depth罗列target
-  compdb        # dump JSON兼容的数据库到标准输出
-  recompact     # 重新紧凑化ninja内部数据结构</code></pre><h3 id="ninja使用"><a href="#ninja使用" class="headerlink" title="ninja使用"></a>ninja使用</h3><p>ninja可以自行安装，各种系统安装方法参考<a href="https://note.qidong.name/2017/09/install-ninja/" target="_blank" rel="noopener">在Android平台开发环境安装ninja</a>。这里我就只介绍如何使用Android项目自带的ninja，在项目根目录，执行find命令，可以找到ninja可执行文件。</p>
-<pre><code>  $ find prebuilts -name ninja
-  prebuilts/build-tools/linux-x86/asan/bin/ninja
-  prebuilts/build-tools/linux-x86/bin/ninja
-  prebuilts/build-tools/darwin-x86/bin/ninja</code></pre><p>对于我们开发常用的UBUNTU平台，一般使用第二个</p>
-<pre><code>  prebuilts/build-tools/linux-x86/bin/ninja -f combined-&lt;product_name&gt;.ninja &lt;target 模块名&gt;</code></pre><p>如果有反复使用的需求，则可以复制该文件到可执行目录下。 比如，用户目录的bin，在Ubuntu上通常就是一个可执行路径。 注意，libc++.so是必须准备的调用库，必须放在与可执行目录同级的lib64，这样就可以直接使用ninja了。</p>
-<pre><code>  mkdir -p ~/bin ~/lib64
-  cp prebuilts/build-tools/linux-x86/bin/ninja ~/bin/
-  cp prebuilts/build-tools/linux-x86/lib64/libc++.so ~/lib64/</code></pre><h4 id="找到需要的target模块名"><a href="#找到需要的target模块名" class="headerlink" title="找到需要的target模块名"></a>找到需要的target模块名</h4><p>在<code>source build/envsetup.sh</code>后，有一些额外的function，可以帮助查找代码，详见hmm。 其中mgrep，对查找*.mk文件，很有帮助。 而Android.bp，则还没做相关功能，不过也可以通过原版grep来实现。</p>
+      -d MODE  <span class="token function">enable</span> debugging <span class="token punctuation">(</span>use -d list to list modes<span class="token punctuation">)</span>
+      -t TOOL  run a subtool <span class="token punctuation">(</span>use -t list to list subtools<span class="token punctuation">)</span>
+      terminates toplevel options<span class="token punctuation">;</span> further flags are passed to the tool
+      -w FLAG  adjust warnings <span class="token punctuation">(</span>use -w list to list warnings<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>很多参数，和make是比较类似的，比如-f、-j等，从后面的注释我们就可以理解大概的用法。 有趣的是-t、-d、-w这三个参数，最有用的是-t。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">      $ ninja -t list
+      ninja subtools:
+          browse  browse dependency graph <span class="token keyword">in</span> a web browser
+           clean  clean built files
+        commands  list all commands required to rebuild given targets
+            deps  show dependencies stored <span class="token keyword">in</span> the deps log
+           graph  output graphviz dot <span class="token function">file</span> <span class="token keyword">for</span> targets
+           query  show inputs/outputs <span class="token keyword">for</span> a path
+         targets  list targets by their rule or depth <span class="token keyword">in</span> the DAG
+          compdb  dump JSON compilation database to stdout
+       recompact  recompacts ninja-internal data structures<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>ninja -t clean是清理产物，是自带的，而make clean往往需要自己实现。 其它都是查看编译过程信息的工具，各有作用，可以进行复杂的编译依赖分析。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">      ninja subtools:
+      browse        <span class="token comment" spellcheck="true"># 在浏览器中浏览依赖关系图。（默认会在 8080 端口启动一个基于python的http服务）</span>
+      clean         <span class="token comment" spellcheck="true"># 清除构建生成的文件</span>
+      commands      <span class="token comment" spellcheck="true"># 罗列重新构建制定目标所需的所有命令</span>
+      deps          <span class="token comment" spellcheck="true"># 显示存储在deps日志中的依赖关系</span>
+      graph         <span class="token comment" spellcheck="true"># 为指定目标生成 graphviz dot 文件。</span>
+                    <span class="token comment" spellcheck="true">#  如 ninja -t graph all |dot -Tpng -ograph.png</span>
+      query         <span class="token comment" spellcheck="true"># 显示一个路径的inputs/outputs</span>
+      targets       <span class="token comment" spellcheck="true"># 通过DAG中rule或depth罗列target</span>
+      compdb        <span class="token comment" spellcheck="true"># dump JSON兼容的数据库到标准输出</span>
+      recompact     <span class="token comment" spellcheck="true"># 重新紧凑化ninja内部数据结构</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="ninja使用"><a href="#ninja使用" class="headerlink" title="ninja使用"></a>ninja使用</h3><p>ninja可以自行安装，各种系统安装方法参考<a href="https://note.qidong.name/2017/09/install-ninja/" target="_blank" rel="noopener">在Android平台开发环境安装ninja</a>。这里我就只介绍如何使用Android项目自带的ninja，在项目根目录，执行find命令，可以找到ninja可执行文件。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">      $ <span class="token function">find</span> prebuilts -name ninja
+      prebuilts/build-tools/linux-x86/asan/bin/ninja
+      prebuilts/build-tools/linux-x86/bin/ninja
+      prebuilts/build-tools/darwin-x86/bin/ninja<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>对于我们开发常用的UBUNTU平台，一般使用第二个</p>
+<pre class="line-numbers language-bash"><code class="language-bash">      prebuilts/build-tools/linux-x86/bin/ninja -f combined-<span class="token operator">&lt;</span>product_name<span class="token operator">></span>.ninja <span class="token operator">&lt;</span>target 模块名<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果有反复使用的需求，则可以复制该文件到可执行目录下。 比如，用户目录的bin，在Ubuntu上通常就是一个可执行路径。 注意，libc++.so是必须准备的调用库，必须放在与可执行目录同级的lib64，这样就可以直接使用ninja了。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">      <span class="token function">mkdir</span> -p ~/bin ~/lib64
+      <span class="token function">cp</span> prebuilts/build-tools/linux-x86/bin/ninja ~/bin/
+      <span class="token function">cp</span> prebuilts/build-tools/linux-x86/lib64/libc++.so ~/lib64/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h4 id="找到需要的target模块名"><a href="#找到需要的target模块名" class="headerlink" title="找到需要的target模块名"></a>找到需要的target模块名</h4><p>在<code>source build/envsetup.sh</code>后，有一些额外的function，可以帮助查找代码，详见hmm。 其中mgrep，对查找*.mk文件，很有帮助。 而Android.bp，则还没做相关功能，不过也可以通过原版grep来实现。</p>
 <p>比如，在AOSP的system/netd目录下，查找所有Makefile里的模块名：</p>
-<pre><code>  $ mgrep -w LOCAL_MODULE
-  ./tests/dns_responder/Android.mk:20:LOCAL_MODULE := libnetd_test_dnsresponder
-  ./tests/benchmarks/Android.mk:20:LOCAL_MODULE := netd_benchmark
-  ./tests/Android.mk:20:LOCAL_MODULE := netd_integration_test
-  ./netutils_wrappers/Android.mk:24:LOCAL_MODULE := netutils-wrapper-1.0
-  ./netutils_wrappers/Android.mk:43:LOCAL_MODULE := netutils_wrapper_test
-  ./server/Android.mk:24:LOCAL_MODULE := libnetdaidl_static
-  ./server/Android.mk:41:LOCAL_MODULE := libnetdaidl
-  ./server/Android.mk:63:LOCAL_MODULE := netd
-  ./server/Android.mk:149:LOCAL_MODULE := ndc
-  ./server/Android.mk:159:LOCAL_MODULE := netd_unit_test</code></pre><p>再查找Android.bp里的模块名</p>
-<pre><code>  $ grep -rnws --include=&#39;*.bp&#39; &#39;name:&#39;
-  libnetdutils/Android.bp:2:    name: &quot;libnetdutils&quot;,
-  libnetdutils/Android.bp:26:    name: &quot;netdutils_test&quot;,
-  Android.bp:2:    name: &quot;libnetd_client_headers&quot;,
-  client/Android.bp:16:    name: &quot;libnetd_client&quot;,</code></pre><p>有些Java层的模块，可能会没有指定LOCAL_MODULE，而是指定LOCAL_PACKAGE_NAME。 比如在packages/apps/Settings，就可以执行以下命令来查找模块。</p>
-<pre><code>  $ mgrep -w &#39;LOCAL_MODULE\|LOCAL_PACKAGE_NAME&#39;
-  ./tests/unit/Android.mk:20:LOCAL_PACKAGE_NAME := SettingsUnitTests
-  ./tests/app/Android.mk:23:LOCAL_PACKAGE_NAME := SettingsTests
-  ./tests/robotests/Android.mk:21:LOCAL_MODULE := SettingsRoboTests
-  ./tests/robotests/Android.mk:32:LOCAL_MODULE := RunSettingsRoboTests
-  ./Android.mk:7:LOCAL_MODULE := settings-logtags
-  ./Android.mk:14:LOCAL_PACKAGE_NAME := Settings</code></pre><p>查找模块名的原理大概就如上所说，为了方便，可以用一个alias来简化查找。</p>
-<pre><code>  alias findm=&quot;grep -rnws --include=&#39;*.[mb][kp]&#39; &#39;LOCAL_MODULE\|LOCAL_PACKAGE_NAME\|name:&#39;&quot;</code></pre><p>直接执行这条命令，可以得到一个findm的alias。 把这一行添加到<code>$HOME/.bashrc</code>中，在新的Bash里就可以直接使用了。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">      $ mgrep -w LOCAL_MODULE
+      ./tests/dns_responder/Android.mk:20:LOCAL_MODULE :<span class="token operator">=</span> libnetd_test_dnsresponder
+      ./tests/benchmarks/Android.mk:20:LOCAL_MODULE :<span class="token operator">=</span> netd_benchmark
+      ./tests/Android.mk:20:LOCAL_MODULE :<span class="token operator">=</span> netd_integration_test
+      ./netutils_wrappers/Android.mk:24:LOCAL_MODULE :<span class="token operator">=</span> netutils-wrapper-1.0
+      ./netutils_wrappers/Android.mk:43:LOCAL_MODULE :<span class="token operator">=</span> netutils_wrapper_test
+      ./server/Android.mk:24:LOCAL_MODULE :<span class="token operator">=</span> libnetdaidl_static
+      ./server/Android.mk:41:LOCAL_MODULE :<span class="token operator">=</span> libnetdaidl
+      ./server/Android.mk:63:LOCAL_MODULE :<span class="token operator">=</span> netd
+      ./server/Android.mk:149:LOCAL_MODULE :<span class="token operator">=</span> ndc
+      ./server/Android.mk:159:LOCAL_MODULE :<span class="token operator">=</span> netd_unit_test<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再查找Android.bp里的模块名</p>
+<pre class="line-numbers language-bash"><code class="language-bash">      $ <span class="token function">grep</span> -rnws --include<span class="token operator">=</span><span class="token string">'*.bp'</span> <span class="token string">'name:'</span>
+      libnetdutils/Android.bp:2:    name: <span class="token string">"libnetdutils"</span>,
+      libnetdutils/Android.bp:26:    name: <span class="token string">"netdutils_test"</span>,
+      Android.bp:2:    name: <span class="token string">"libnetd_client_headers"</span>,
+      client/Android.bp:16:    name: <span class="token string">"libnetd_client"</span>,<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>有些Java层的模块，可能会没有指定LOCAL_MODULE，而是指定LOCAL_PACKAGE_NAME。 比如在packages/apps/Settings，就可以执行以下命令来查找模块。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">      $ mgrep -w <span class="token string">'LOCAL_MODULE\|LOCAL_PACKAGE_NAME'</span>
+      ./tests/unit/Android.mk:20:LOCAL_PACKAGE_NAME :<span class="token operator">=</span> SettingsUnitTests
+      ./tests/app/Android.mk:23:LOCAL_PACKAGE_NAME :<span class="token operator">=</span> SettingsTests
+      ./tests/robotests/Android.mk:21:LOCAL_MODULE :<span class="token operator">=</span> SettingsRoboTests
+      ./tests/robotests/Android.mk:32:LOCAL_MODULE :<span class="token operator">=</span> RunSettingsRoboTests
+      ./Android.mk:7:LOCAL_MODULE :<span class="token operator">=</span> settings-logtags
+      ./Android.mk:14:LOCAL_PACKAGE_NAME :<span class="token operator">=</span> Settings<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>查找模块名的原理大概就如上所说，为了方便，可以用一个alias来简化查找。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">      <span class="token function">alias</span> findm<span class="token operator">=</span><span class="token string">"grep -rnws --include='*.[mb][kp]' 'LOCAL_MODULE\|LOCAL_PACKAGE_NAME\|name:'"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>直接执行这条命令，可以得到一个findm的alias。 把这一行添加到<code>$HOME/.bashrc</code>中，在新的Bash里就可以直接使用了。</p>
 <p>ninja不只能编译模块，也能编译单个文件。这一般用在编译过程出错时，我们修改后快速检查修改是否正确。</p>
-<pre><code>$ echo error &gt;&gt; system/netd/server/Network.cpp  # Make an error
-$ ninja netd
-[1/6] target  C++: netd &lt;= system/netd/server/Network.cpp
-FAILED: out/target/product/aosp_arm64/obj/EXECUTABLES/netd_intermediates/Network.o
-...
-system/netd/server/Network.cpp:95:1: error: unknown type name &#39;error&#39;
-error
-^
-system/netd/server/Network.cpp:95:6: error: expected unqualified-id
-error
-     ^
-2 errors generated.
-ninja: build stopped: subcommand failed.</code></pre><p>在我们修改了这个错误后，可以通过FAILED:的提示，直接编译这个*.o文件。</p>
-<pre><code>$ ninja out/target/product/aosp_arm64/obj/EXECUTABLES/netd_intermediates/Network.o
-[1/1] target  C++: netd &lt;= system/netd/server/Network.cpp</code></pre><p>对于我来说，常涉及到的模块主要是bootimage和vendor下camera相关的一些模块，kernel中高通平台有相应的shell脚本进行编译更加快捷，但vendor下camera相关的一些模块ninja会比mm快很多；MTK平台使用make bootimage大约需要20分钟，<code>prebuilts/build-tools/linux-x86/bin/ninja -f combined-&lt;product_name&gt;.ninja bootimage</code>只需要3~5分钟左右</p>
+<pre class="line-numbers language-bash"><code class="language-bash">    $ <span class="token keyword">echo</span> error <span class="token operator">>></span> system/netd/server/Network.cpp  <span class="token comment" spellcheck="true"># Make an error</span>
+    $ ninja netd
+    <span class="token punctuation">[</span>1/6<span class="token punctuation">]</span> target  C++: netd <span class="token operator">&lt;=</span> system/netd/server/Network.cpp
+    FAILED: out/target/product/aosp_arm64/obj/EXECUTABLES/netd_intermediates/Network.o
+    <span class="token punctuation">..</span>.
+    system/netd/server/Network.cpp:95:1: error: unknown <span class="token function">type</span> name <span class="token string">'error'</span>
+    error
+    ^
+    system/netd/server/Network.cpp:95:6: error: expected unqualified-id
+    error
+         ^
+    2 errors generated.
+    ninja: build stopped: subcommand failed.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在我们修改了这个错误后，可以通过FAILED:的提示，直接编译这个*.o文件。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">    $ ninja out/target/product/aosp_arm64/obj/EXECUTABLES/netd_intermediates/Network.o
+    <span class="token punctuation">[</span>1/1<span class="token punctuation">]</span> target  C++: netd <span class="token operator">&lt;=</span> system/netd/server/Network.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>对于我来说，常涉及到的模块主要是bootimage和vendor下camera相关的一些模块，kernel中高通平台有相应的shell脚本进行编译更加快捷，但vendor下camera相关的一些模块ninja会比mm快很多；MTK平台使用make bootimage大约需要20分钟，<code>prebuilts/build-tools/linux-x86/bin/ninja -f combined-&lt;product_name&gt;.ninja bootimage</code>只需要3~5分钟左右</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>ninja能够极大的提高编译效率，避免我们把时间浪费在无用的编译中，但我们需要注意非常重要的一点：<strong><font color="ff0000">这些都只适合增量编译，如果我们新增了.c .c++或者修改了.mk.bp 的文件化，需要重新指向kati、soong的过程，用于手机新增文件或者新增编译参数的变化，最终重新生成combined-aosp_arm.ninja来参与编译，这个编译的速率还是会慢一些。需要在开发过程中注意这一点，以免引起qninja编译模块不生效的问题。</font></strong></p>
 
                 
@@ -952,6 +975,43 @@ ninja: build stopped: subcommand failed.</code></pre><p>在我们修改了这个
 </div>
 
 
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: Mo Cuishle<br />'
+            + '文章作者: Mo Cuishle<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
 
 <!-- 代码块功能依赖 -->
 <script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
@@ -1148,13 +1208,13 @@ ninja: build stopped: subcommand failed.</code></pre><p>在我们修改了这个
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/wuflower" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:wuyingchao1018@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1164,11 +1224,15 @@ ninja: build stopped: subcommand failed.</code></pre><p>在我们修改了这个
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=676074520" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 676074520" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
 
+
+    <a href="https://weibo.com/u/2262756603/" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/u/2262756603/" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
 
 
 
