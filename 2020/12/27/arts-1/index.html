@@ -549,7 +549,7 @@
         <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>sum <span class="token operator">==</span> sum<span class="token operator">?</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>sum<span class="token operator">:</span><span class="token number">0</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这道算法题一共写了3中实现方法，第一种是自己分析调试了两小时左右实现的，后两种是Leetcode上看到的比较简练的java实现。这题对于我来说，主要是反转之后的数是否溢出比较难以判断。</p>
-<p>第二种实现方法的思想是：将<strong>输入参数（a）</strong>的个位数作为一个<strong>新的数（b）</strong>的最低位，然后去掉输入参数的个位数得到的<strong>新参数（c）</strong>再作为<strong>输入参数（b）</strong>重复上面的循环知道<strong>c</strong>等于0；其中溢出的判断跟我通过实践得出的算法类似：<strong>b</strong>减去最新加上的个位数对10求商，不等于进入之循环之前的<strong>b</strong>则数据溢出。</p>
+<p>第二种实现方法的思想是：将<strong>输入参数（a）</strong>的个位数作为一个<strong>新的数（b）</strong>的最低位，然后去掉输入参数的个位数得到的<strong>新参数（c）</strong>再作为<strong>输入参数（b）</strong>重复上面的循环直到<strong>c</strong>等于0；其中溢出的判断跟我通过实践得出的算法类似：<strong>b</strong>减去最新加上的个位数对10求商，不等于进入之循环之前的<strong>b</strong>则数据溢出。</p>
 <p>第三种实现方法的思想基本一样，但其中有非常巧妙的一点。因为题目规定的溢出范围恰好是int的数据范围，因此他将反转后的数用long来存储，最终通过判断long强制转换成int数据值是否发生变化来判断反转后的数是否溢出。</p>
 <h3 id="回文数"><a href="#回文数" class="headerlink" title="回文数"></a><a href="https://leetcode-cn.com/problems/palindrome-number/" target="_blank" rel="noopener">回文数</a></h3><pre class="line-numbers language-java"><code class="language-java">    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isPalindrome</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">if</span><span class="token punctuation">(</span>a <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
@@ -1237,6 +1237,8 @@
     </a>
 
 </div>
+		<div align="center"> <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank"> <img src="./youpaiyun.png" width="3%"></a>
+		</div>
     </div>
 </footer>
 
