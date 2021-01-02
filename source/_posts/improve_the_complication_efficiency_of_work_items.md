@@ -96,7 +96,7 @@ Android编译脚本重新生成Ninja文件的场景，比想象中要多。如�
 Makefile默认文件名为Makefile或makefile，也常用.make或.mk作为文件后缀。 Ninja的默认文件名是build.ninja，其它文件也以.ninja为后缀。 执行Makefile的程序，默认是GNU make，也有一些其它的实现。 Ninja的执行程序，就是ninja命令。
 
 同其它命令一样，我们可以用`ninja -h`来查看ninja命令的帮助文档
-
+```bash
       $ ninja -h
       usage: ninja [options] [targets...]
 
@@ -118,9 +118,10 @@ Makefile默认文件名为Makefile或makefile，也常用.make或.mk作为文件
       -t TOOL  run a subtool (use -t list to list subtools)
       terminates toplevel options; further flags are passed to the tool
       -w FLAG  adjust warnings (use -w list to list warnings)
+```
 
 很多参数，和make是比较类似的，比如-f、-j等，从后面的注释我们就可以理解大概的用法。 有趣的是-t、-d、-w这三个参数，最有用的是-t。
-
+```bash
       $ ninja -t list
       ninja subtools:
           browse  browse dependency graph in a web browser
@@ -132,8 +133,9 @@ Makefile默认文件名为Makefile或makefile，也常用.make或.mk作为文件
          targets  list targets by their rule or depth in the DAG
           compdb  dump JSON compilation database to stdout
        recompact  recompacts ninja-internal data structures
+```
 ninja -t clean是清理产物，是自带的，而make clean往往需要自己实现。 其它都是查看编译过程信息的工具，各有作用，可以进行复杂的编译依赖分析。
-
+```bash
       ninja subtools:
       browse        # 在浏览器中浏览依赖关系图。（默认会在 8080 端口启动一个基于python的http服务）
       clean         # 清除构建生成的文件
@@ -145,32 +147,32 @@ ninja -t clean是清理产物，是自带的，而make clean往往需要自己�
       targets       # 通过DAG中rule或depth罗列target
       compdb        # dump JSON兼容的数据库到标准输出
       recompact     # 重新紧凑化ninja内部数据结构
-
+```
 ### ninja使用
 
 ninja可以自行安装，各种系统安装方法参考[在Android平台开发环境安装ninja](https://note.qidong.name/2017/09/install-ninja/)。这里我就只介绍如何使用Android项目自带的ninja，在项目根目录，执行find命令，可以找到ninja可执行文件。
-
+```bash
       $ find prebuilts -name ninja
       prebuilts/build-tools/linux-x86/asan/bin/ninja
       prebuilts/build-tools/linux-x86/bin/ninja
       prebuilts/build-tools/darwin-x86/bin/ninja
-
+```
 对于我们开发常用的UBUNTU平台，一般使用第二个
-
+```bash
       prebuilts/build-tools/linux-x86/bin/ninja -f combined-<product_name>.ninja <target 模块名>
-
+```
 如果有反复使用的需求，则可以复制该文件到可执行目录下。 比如，用户目录的bin，在Ubuntu上通常就是一个可执行路径。 注意，libc++.so是必须准备的调用库，必须放在与可执行目录同级的lib64，这样就可以直接使用ninja了。
-
+```bash
       mkdir -p ~/bin ~/lib64
       cp prebuilts/build-tools/linux-x86/bin/ninja ~/bin/
       cp prebuilts/build-tools/linux-x86/lib64/libc++.so ~/lib64/
-
+```
 #### 找到需要的target模块名
 
 在`source build/envsetup.sh`后，有一些额外的function，可以帮助查找代码，详见hmm。 其中mgrep，对查找*.mk文件，很有帮助。 而Android.bp，则还没做相关功能，不过也可以通过原版grep来实现。
 
 比如，在AOSP的system/netd目录下，查找所有Makefile里的模块名：
-
+```bash
       $ mgrep -w LOCAL_MODULE
       ./tests/dns_responder/Android.mk:20:LOCAL_MODULE := libnetd_test_dnsresponder
       ./tests/benchmarks/Android.mk:20:LOCAL_MODULE := netd_benchmark
@@ -182,17 +184,17 @@ ninja可以自行安装，各种系统安装方法参考[在Android平台开发�
       ./server/Android.mk:63:LOCAL_MODULE := netd
       ./server/Android.mk:149:LOCAL_MODULE := ndc
       ./server/Android.mk:159:LOCAL_MODULE := netd_unit_test
-
+```
 再查找Android.bp里的模块名
-
+```bash
       $ grep -rnws --include='*.bp' 'name:'
       libnetdutils/Android.bp:2:    name: "libnetdutils",
       libnetdutils/Android.bp:26:    name: "netdutils_test",
       Android.bp:2:    name: "libnetd_client_headers",
       client/Android.bp:16:    name: "libnetd_client",
-
+```
 有些Java层的模块，可能会没有指定LOCAL_MODULE，而是指定LOCAL_PACKAGE_NAME。 比如在packages/apps/Settings，就可以执行以下命令来查找模块。
-
+```bash
       $ mgrep -w 'LOCAL_MODULE\|LOCAL_PACKAGE_NAME'
       ./tests/unit/Android.mk:20:LOCAL_PACKAGE_NAME := SettingsUnitTests
       ./tests/app/Android.mk:23:LOCAL_PACKAGE_NAME := SettingsTests
@@ -200,15 +202,15 @@ ninja可以自行安装，各种系统安装方法参考[在Android平台开发�
       ./tests/robotests/Android.mk:32:LOCAL_MODULE := RunSettingsRoboTests
       ./Android.mk:7:LOCAL_MODULE := settings-logtags
       ./Android.mk:14:LOCAL_PACKAGE_NAME := Settings
-
+```
 查找模块名的原理大概就如上所说，为了方便，可以用一个alias来简化查找。
-
+```bash
       alias findm="grep -rnws --include='*.[mb][kp]' 'LOCAL_MODULE\|LOCAL_PACKAGE_NAME\|name:'"
-
+```
 直接执行这条命令，可以得到一个findm的alias。 把这一行添加到`$HOME/.bashrc`中，在新的Bash里就可以直接使用了。
 
 ninja不只能编译模块，也能编译单个文件。这一般用在编译过程出错时，我们修改后快速检查修改是否正确。
-
+```bash
     $ echo error >> system/netd/server/Network.cpp  # Make an error
     $ ninja netd
     [1/6] target  C++: netd <= system/netd/server/Network.cpp
@@ -222,11 +224,12 @@ ninja不只能编译模块，也能编译单个文件。这一般用在编译过
          ^
     2 errors generated.
     ninja: build stopped: subcommand failed.
-
+```
 在我们修改了这个错误后，可以通过FAILED:的提示，直接编译这个*.o文件。
-
+```bash
     $ ninja out/target/product/aosp_arm64/obj/EXECUTABLES/netd_intermediates/Network.o
     [1/1] target  C++: netd <= system/netd/server/Network.cpp
+```
 
 对于我来说，常涉及到的模块主要是bootimage和vendor下camera相关的一些模块，kernel中高通平台有相应的shell脚本进行编译更加快捷，但vendor下camera相关的一些模块ninja会比mm快很多；MTK平台使用make bootimage大约需要20分钟，`prebuilts/build-tools/linux-x86/bin/ninja -f combined-<product_name>.ninja bootimage`只需要3~5分钟左右
 

@@ -24,7 +24,7 @@ ARTS 高效学习需要按周去做，需要持续地坚持下去，这样可以
 ## Algorithm
 ### [整数反转](https://leetcode-cn.com/problems/reverse-integer/)
 
-
+```java
     private static int inverse(int a) {
       if(a > (Math.pow(2,31)-1) || a < -Math.pow(2,32)){
           System.out.println("输入数据溢出");
@@ -76,6 +76,7 @@ ARTS 高效学习需要按周去做，需要持续地坚持下去，这样可以
       }
         return (int)sum == sum?(int)sum:0;
     }
+```
 
 这道算法题一共写了3中实现方法，第一种是自己分析调试了两小时左右实现的，后两种是Leetcode上看到的比较简练的java实现。这题对于我来说，主要是反转之后的数是否溢出比较难以判断。
 
@@ -84,7 +85,7 @@ ARTS 高效学习需要按周去做，需要持续地坚持下去，这样可以
 第三种实现方法的思想基本一样，但其中有非常巧妙的一点。因为题目规定的溢出范围恰好是int的数据范围，因此他将反转后的数用long来存储，最终通过判断long强制转换成int数据值是否发生变化来判断反转后的数是否溢出。
 
 ### [回文数](https://leetcode-cn.com/problems/palindrome-number/)
-
+```java
     private static boolean isPalindrome(int a) {
         if(a < 0){
             return false;
@@ -104,9 +105,10 @@ ARTS 高效学习需要按周去做，需要持续地坚持下去，这样可以
             return false;
         }
     }
-
+```
 ### [罗马数字转整数](https://leetcode-cn.com/problems/roman-to-integer/)
 
+```java
     private static int romanToInt(String s) {
     int l = s.length();
     int sum = 0;
@@ -163,6 +165,7 @@ ARTS 高效学习需要按周去做，需要持续地坚持下去，这样可以
         }
         return sum;
     }
+```
 
 ## Review
 [How much math you need for programming](https://lispmachine.wordpress.com/2014/12/05/how-much-math-you-need-for-programming/?utm_source=wanqu.co&utm_campaign=Wanqu+Daily&utm_medium=website)
