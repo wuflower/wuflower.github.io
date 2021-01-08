@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wuflower.github.io/"/>
-  <updated>2021-01-02T13:43:28.728Z</updated>
+  <updated>2021-01-08T13:22:42.006Z</updated>
   <id>https://wuflower.github.io/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Android项目Device Tree深入理解（一）</title>
+    <link href="https://wuflower.github.io/2021/01/05/devicetree/"/>
+    <id>https://wuflower.github.io/2021/01/05/devicetree/</id>
+    <published>2021-01-05T14:22:38.000Z</published>
+    <updated>2021-01-08T13:22:42.006Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Android项目Device-Tree深入理解（一）&quot;&gt;&lt;a href=&quot;#Android项目Device-Tree深入理解（一）&quot; class=&quot;headerlink&quot; title=&quot;Android项目Device
+        
+      
+    
+    </summary>
+    
+      <category term="Android" scheme="https://wuflower.github.io/categories/Android/"/>
+    
+    
+      <category term="DeviceTree" scheme="https://wuflower.github.io/tags/DeviceTree/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ARTS_1</title>
     <link href="https://wuflower.github.io/2020/12/27/arts-1/"/>
     <id>https://wuflower.github.io/2020/12/27/arts-1/</id>
     <published>2020-12-27T07:22:38.000Z</published>
-    <updated>2021-01-02T13:43:28.728Z</updated>
+    <updated>2021-01-04T13:18:41.269Z</updated>
     
     <summary type="html">
     
