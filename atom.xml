@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wuflower.github.io/"/>
-  <updated>2021-01-10T10:02:29.674Z</updated>
+  <updated>2021-01-16T06:19:24.610Z</updated>
   <id>https://wuflower.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>高通平台Android项目camera MIPI配置及原理</title>
+    <link href="https://wuflower.github.io/2021/01/16/camera-mipi/"/>
+    <id>https://wuflower.github.io/2021/01/16/camera-mipi/</id>
+    <published>2021-01-16T03:29:07.000Z</published>
+    <updated>2021-01-16T06:19:24.610Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;高通平台Android项目camera-C-phy配置及原理&quot;&gt;&lt;a href=&quot;#高通平台Android项目camera-C-phy配置及原理&quot; class=&quot;headerlink&quot; title=&quot;高通平台Android项目camera
+        
+      
+    
+    </summary>
+    
+      <category term="Android" scheme="https://wuflower.github.io/categories/Android/"/>
+    
+    
+      <category term="camera" scheme="https://wuflower.github.io/tags/camera/"/>
+    
+  </entry>
   
   <entry>
     <title>ARTS-2</title>
